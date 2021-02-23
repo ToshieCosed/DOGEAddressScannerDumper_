@@ -1,0 +1,12 @@
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\CoinFrameTest.exe.config
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\CoinFrameTest.exe
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\CoinFrameTest.pdb
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\DogecoinBlockExplorer.dll
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\obj\Debug\CoinFrameTest.csprojAssemblyReference.cache
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\obj\Debug\CoinFrameTest.csproj.CoreCompileInputs.cache
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\obj\Debug\CoinFrameTest.csproj.CopyComplete
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\obj\Debug\CoinFrameTest.exe
+C:\Users\Rain_\source\repos\CoinFrameTest\CoinFrameTest\obj\Debug\CoinFrameTest.pdb
