@@ -20,8 +20,9 @@ namespace CoinFrameTest
         public static List<string> history = new List<string>();
         public static List<string> balances = new List<string>();
         public static string checkingfile = "addresses.txt";
+        public static int delays = 0;
 
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the great address and balance checker");
             Console.WriteLine("This program/utility will for you today scan doge addresses on the blockchain");
@@ -39,6 +40,16 @@ namespace CoinFrameTest
             Console.WriteLine("File by name of " + checkingfile + "loaded to be read");
             Console.WriteLine("Please note: This will require the format produced by VanityKeyGen, where the formatting appears like so:");
             Console.WriteLine("DOGE Address: DHACKmEgpUByp6tw6ebAm1Sq3KwBkf8T8b");
+            Console.WriteLine("Lastly, and optionally, choose a number of milliseconds to delay by, between 0 and 2000");
+            Console.WriteLine("Doing this will reduce the chance of being rate-limited by dogechain api but the process will take longer");
+            string delays_ = Console.ReadLine();
+
+            if (delays_.Length > 0)
+            {
+                Int32.TryParse(delays_, out delays);
+            }
+
+
             Console.WriteLine("Press return/enter one more time to start! ");
             Console.ReadLine();
 
@@ -56,28 +67,48 @@ namespace CoinFrameTest
                     try{
 
 
-                        var mytask = await explorer.Balance(currentaddress);
-                        if (mytask != null)
+                        var wait = explorer.Balance(currentaddress).GetAwaiter();
+                        while (!wait.IsCompleted)
                         {
-                            value = value + mytask.Balance;
-                            if (mytask.Balance > lowest_value) { balances.Add(currentaddress); }
-                        }
-                        else
-                        {
-                            Console.WriteLine("The task was null cannot continue! We must be at end of file.");
-                            Console.WriteLine("Press enter to exit!!, results will be saved to balances.txt and history.txt respectively!");
-                            Console.ReadLine();
-                            File.WriteAllLines("history.txt", history.ToArray());
-                            File.WriteAllLines("balances.txt", balances.ToArray());
-
-                            Environment.Exit(0);
+                            
                             
                         }
 
-                        var task2 = await explorer.AmountReceived(currentaddress);
-                        if (task2 != null)
+                        var result_ = wait.GetResult();
+
+                        if (result_!=null)
                         {
-                            decimal received_ = task2.Received;
+                            value = value + result_.Balance;
+                            if (result_.Balance > lowest_value) { balances.Add(currentaddress); }
+                        }
+                        else
+                        {
+                           
+                            Console.WriteLine("There was something wrong with the result and execution can continue! but unexpected things may occur from here on out.");
+                            Console.WriteLine("It's probably because dogechain is rate-limiting us or there's a connection issue. You can always try restarting with a higher delay setting");
+                            Console.WriteLine("The current address was " + currentaddress);
+                            File.WriteAllLines("history.txt", history.ToArray());
+                            File.WriteAllLines("balances.txt", balances.ToArray());
+                            Console.WriteLine("Pausing for a few seconds, likely being rate-limited by dogechain API.");
+                            System.Threading.Thread.Sleep(5000);
+                            Console.WriteLine("Continuing...in two seconds");
+                            System.Threading.Thread.Sleep(2000);
+                            Console.Clear();
+
+                        }
+
+                        var wait2 = explorer.AmountReceived(currentaddress).GetAwaiter();
+
+                        while (!wait2.IsCompleted)
+                        {
+
+                        }
+
+                        var result2_ = wait2.GetResult();
+
+                        if (result2_ != null)
+                        {
+                            decimal received_ = result2_.Received;
                             if (received_ > lowest_value)
                             {
                                 history.Add(currentaddress);
@@ -109,6 +140,12 @@ namespace CoinFrameTest
 
 
                    
+                }
+
+                //check if we can delay then do it if we can
+                if (delays > 0)
+                {
+                    System.Threading.Thread.Sleep(delays);
                 }
 
                 
